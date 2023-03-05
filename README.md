@@ -31,7 +31,18 @@ THEN I am taken to the corresponding section of the README
 
 ## Installation
 
+```
+npm init
+```
+```
+npm install inquirer@8.2.4
+```
+
 ## Usage
+
+```
+node index.js
+```
 
 ## Walkthrough Video
 
