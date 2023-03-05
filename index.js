@@ -10,57 +10,32 @@ const questions = [
       type: 'input',
       name: 'projectTitle',
       message: 'What is the title of your project?',
-      validate: (input) => {
-        if (!input) {
-          return 'Please enter a project title';
-        }
-        return true;
-      },
+      validate: validateInput
     },
     {
       type: 'input',
       name: 'description',
       message: 'Please provide a short description of your project:',
-      validate: (input) => {
-        if (!input) {
-          return 'Please enter a description of your project';
-        }
-        return true;
-      },
+      validate: validateInput
     },
     {
       type: 'checkbox',
       name: 'tableOfContents',
       message: 'Which sections would you like to include in your table of contents?',
       choices: ['Installation', 'Usage', 'License', 'Contributing', 'Tests'],
-      validate: (input) => {
-        if (input.length === 0) {
-          return 'Please select at least one section to include in your table of contents';
-        }
-        return true;
-      },
+      validate: validateInput
     },
     {
       type: 'input',
       name: 'installation',
       message: 'What are the installation instructions for your project?',
-      validate: (input) => {
-        if (!input) {
-          return 'Please provide installation instructions for your project';
-        }
-        return true;
-      },
+      validate: validateInput
     },
     {
       type: 'input',
       name: 'usage',
       message: 'Please provide usage information for your project:',
-      validate: (input) => {
-        if (!input) {
-          return 'Please provide usage information for your project';
-        }
-        return true;
-      },
+      validate: validateInput
     },
     {
       type: 'list',
@@ -73,47 +48,45 @@ const questions = [
       type: 'input',
       name: 'contributing',
       message: 'Please provide contribution guidelines for your project:',
-      validate: (input) => {
-        if (!input) {
-          return 'Please provide contribution guidelines for your project';
-        }
-        return true;
-      },
+      validate: validateInput
     },
     {
       type: 'input',
       name: 'tests',
       message: 'Please provide instructions for running tests on your project:',
-      validate: (input) => {
-        if (!input) {
-          return 'Please provide instructions for running tests on your project';
-        }
-        return true;
-      },
+      validate: validateInput
     },
     {
       type: 'input',
       name: 'githubUsername',
       message: 'What is your GitHub username?',
-      validate: (input) => {
-        if (!input) {
-          return 'Please provide your GitHub username';
-        }
-        return true;
-      },
+      validate: validateInput
     },
     {
       type: 'input',
       name: 'email',
       message: 'What is your email address?',
-      validate: (input) => {
-        if (!input) {
-          return 'Please provide your email address';
-        }
-        return true;
-      },
+      validate: validateEmail,
     },
   ];
+
+// function to validate user input in each question
+function validateInput(input) {
+    if (!input) {
+      return 'Please enter a value.';
+    }
+    return true;
+}
+
+// funtion to validate if email input is a valid email address
+function validateEmail(email) {
+// Regular expression pattern for validating email addresses
+    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!pattern.test(email)) {
+        return 'Please enter a valid email address.';
+    }
+    return true;
+}
 
 // init function to pass the questions to inquirer
 function init() {
