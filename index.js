@@ -19,19 +19,6 @@ const questions = [
       validate: validateInput
     },
     {
-      type: 'checkbox',
-      name: 'tableOfContents',
-      message: 'Which sections would you like to include in your table of contents?',
-      choices: ['Installation', 'Usage', 'License', 'Contributing', 'Tests'],
-      validate: validateInput
-    },
-    {
-      type: 'input',
-      name: 'installation',
-      message: 'What are the installation instructions for your project?',
-      validate: validateInput
-    },
-    {
       type: 'input',
       name: 'usage',
       message: 'Please provide usage information for your project:',
@@ -93,9 +80,9 @@ function getLicenseIcon(license) {
     switch (license) {
       case 'MIT':
         return '![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)';
-      case 'Apache 2.0':
+      case 'Apache':
         return '![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)';
-      case 'GPL 3.0':
+      case 'GPLv3':
         return '![License: GPL 3.0](https://img.shields.io/badge/License-GPLv3-blue.svg)';
       case 'BSD 3-Clause':
         return '![License: BSD 3-Clause](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)';
@@ -104,11 +91,67 @@ function getLicenseIcon(license) {
     }
 }
 
+// Template literal to be used for generation the README file
+function generateReadme(data) {
+const readmeTemplate = `
+# ${data.projectTitle}
+
+${data.licenseicon}
+
+## Description
+
+${data.description}
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [License](#license)
+- [Contributing](#contributing)
+- [Tests](#tests)
+- [Questions](#questions)
+
+## Installation
+
+${data.installation}
+
+## Usage
+
+${data.usage}
+
+## License
+
+${data.license}
+
+## Contributing
+
+${data.contributing}
+
+## Tests
+
+${data.tests}
+
+## Questions
+
+* GitHub Username: [${data.githubUsername}](https://github.com/${data.githubUsername})
+* Contact Email: [email](mailto:${data.email})
+`;
+
+return readmeTemplate;
+
+}
+
+
 // init function to pass the questions to inquirer
 function init() {
     inquirer.prompt(questions).then((data) => {
         console.log(data);
-        console.log("End of test.");
+        data.licenseicon = getLicenseIcon(data.license);
+        const contents = generateReadme(data);
+        fs.writeFile('./example/README.md', contents, (err) => {
+            if (err) throw err;
+            console.log('The file has been saved!');
+          });
     });
 }
 
